@@ -1,0 +1,48 @@
+{
+  "title": "Supply Chain Security: Trivy",
+  "description": "Aqua container security scanner: Trivy",
+  "difficulty": "Intermediate",
+  "time": "5",
+  "details": {
+    "steps": [
+      {
+        "title": "Explore trivy",
+        "text": "step1.md"
+      },
+      {
+        "title": "Explore trivy command line options",
+        "text": "step2.md"
+      },
+      {
+        "title": "optimise trivy image scan",
+        "text": "step3.md"
+      },
+      {
+        "title": "Install k3s and sample pods",
+        "text": "step4.md"
+      },
+      {
+        "title": "output pods, and scan stats",
+        "text": "step5.md"
+      },
+      {
+        "title": "Step 6",
+        "text": "step6.md"
+      }
+    ],
+
+
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "environment": {
+    "uilayout": "terminal"
+  },
+  "backend": {
+    "imageid": "ubuntu:1804"
+  }
+}

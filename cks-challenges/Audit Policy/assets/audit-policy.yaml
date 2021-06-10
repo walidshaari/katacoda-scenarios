@@ -1,0 +1,46 @@
+# Example Audit policy 
+# Example audit policy from the O'rielly book "Production Kubernetes" Chapter 9
+# with commentry from @walidshaari
+# 9th June 2021  k8s v1.20.7
+# to find which resource belongs to which APIGroup use "kubectl api-resources"
+
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:                           #Order is important when evaluting below Audit rules, start with None and usually finish with catch all
+- level: None                    # None auditing level means the API server will not log events 
+  users: ["system:kube-proxy"]   # for users system:kube-proxy
+  verbs: ["watch"]               # when requesting watch on listed resources 
+  resources:
+  - group: ""                    # from core API group: endpoints, services and subresource for service status
+    resources: ["endpoints", "services", "services/status"]  
+
+- level: Metadata    
+  resources:
+  - group: ""
+    resources: ["secrets", "configmaps"]
+  - group: authentication.k8s.io
+    resources: ["tokenreviews"]
+  omitStages:                    # be careful and pay attention to identation
+  - "RequestReceived"
+
+- level: Request    
+  verbs: ["get", "list", "watch"]  
+  resources:  
+  - group: ""  
+  - group: "apps"  
+  - group: "batch"  
+  omitStages:  
+  - "RequestReceived"
+
+- level: RequestResponse    
+  resources:  
+  - group: ""  
+  - group: "apps"  
+  - group: "batch"  
+  omitStages:  
+  - "RequestReceived" # Default level for all other requests.
+
+
+- level: Metadata    
+  omitStages:  ["RequestReceived"]   # a differnet YAML  way to express arrays and ease reading 
+

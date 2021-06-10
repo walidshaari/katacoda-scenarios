@@ -1,0 +1,51 @@
+{
+  "title": "CKS Challenges",
+  "description": "Sample of possible CKS Challenges",
+  "courses": [
+    {
+      "course_id": "Audit Policy",
+      "title": "Audit Policy",
+      "description": "Audit Policy"
+    },
+    {
+      "course_id": "falco",
+      "title": "Runtime Security",
+      "description": "Behavioral Analytics at host, container, pod level"
+    },
+    {
+      "course_id": "RuntimeClass",
+      "title": "Runtime Class",
+      "description": "RuntimeClass"
+    },
+    {
+      "course_id": "Troubleshooting",
+      "title": "Troubleshooting the controlplane",
+      "description": "how to troubleshoot the apiserver, etcd, scheduler and controller-manager?"
+    },
+    {
+      "course_id": "trivy",
+      "title": "Supply Chain Security: Trivy",
+      "description": "Aqua container security scanner: Trivy"
+    },
+    {
+      "course_id": "OPA",
+      "title": "Open Policy Agent",
+      "description": "Open Policy Agent"
+    },
+    {
+      "course_id": "kube-bench",
+      "title": "CSI Kubernetes benchmark",
+      "description": "Use kube-bench CIS benchmark to review the security configuration of Kubernetes components"
+    },
+    {
+      "course_id": "ImagePolicyWebhooks",
+      "title": "Image Policy Webhooks",
+      "description": "Image Policy Webhooks admission control"
+    },
+    {
+      "course_id": "supplychain",
+      "title": "Supply Chain Security: Trivy",
+      "description": "Container Scanner Trivy"
+    }
+  ]
+}
