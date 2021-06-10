@@ -1,3 +1,13 @@
+## How to connect with Walid?
+
+Social networks:
+
+  - issues/pull requests in here GitHub
+  - https://www.linkedin.com/in/walidshaari/
+  - https://twitter.com/walidshaari
+
+<img src="./images/CNJ.png" width="450"/>
+
 # Interactive Katacoda Scenarios
 
 [![](http://shields.katacoda.com/katacoda/walidshaari/count.svg)](https://www.katacoda.com/walidshaari "Get your profile on Katacoda.com")
