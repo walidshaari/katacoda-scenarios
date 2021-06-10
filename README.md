@@ -193,7 +193,166 @@ spec:
 
 
 # 3-trivy
+# Trivy
 
+
+<img src="./assets/trivy-logo.png" width="150"/>
+
+
+
+### What is Trivy?
+ A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesystems. Suitable for CI
+ 
+ <img src="./assets/overview.png" width="600"/>
+
+### Documentation:
+
+- https://github.com/aquasecurity/trivy
+  This is an allowed link in the exam, however `trivy --help`{{copy}} should be more than enough during the exam
+  Get familiar with the commonly used flags and thier options before the exam
+
+## Exam reference:
+
+  Trivy comes under the CKS exam objective of **Supply-chain  security**  with a weight of **20%**
+
+  - Scan images for known vulnerabilities
+  - https://github.com/walidshaari/Certified-Kubernetes-Security-Specialist#supply-chain-security---20
+
+
+ ### What to remmber?
+
+ - Command line options
+ - How to optimize Trivy scan
+ - Practice scanning several images either in a file system, registry, or deployments
+ - Master your jsonpath output skills
+
+   ![usage](./assets/usage.gif)
+
+
+## Install Trivy using from AquaSecurity github repo
+
+- Check out the different [installation methods](https://aquasecurity.github.io/trivy/v0.18.3/installation/)
+
+  `curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh |sh -s -- -b /usr/local/bin`{{execute}}
+
+
+- Deploy lightweight kubernetes k3s with some sample apps(deployment
+  
+  Using the generic install script method, will install a single node k3s cluster:
+  `curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.20.0+k3s2 sh -`{{execute}}
+   
+   Check Cluster node readines:
+   `kubectl get nodes -o wide`{{execute}}
+
+   Deploy sample apps:
+   `kubectl -f ./deployments`{{execute}} 
+
+## Get comfertable with trivy command line options and flags
+
+
+### Example image scaning use cases:
+
+- Ignore unfixed vulnerabilities:
+ 
+  $`trivy image --ignore-unfixed ruby:2.4.0`{{copy}}
+
+- List by specific severities       
+
+  $`trivy image --severity HIGH,CRITICAL ruby:2.4.0`{{copy}}
+
+- CICD use case, ignoring vulnerability detail such as descriptions and references.Because of that, the size of the DB is smaller and the download is faster.
+  
+  $` trivy image --light alpine:3.10`{{copy}}
+
+For more check out https://aquasecurity.github.io/trivy/v0.18.3/examples/
+
+
+
+```
+
+$trivy --help
+NAME:
+   trivy - A simple and comprehensive vulnerability scanner for containers
+
+USAGE:
+   trivy [global options] command [command options] target
+
+VERSION:
+   0.18.3
+
+COMMANDS:
+   image, i          scan an image
+   filesystem, fs    scan local filesystem
+   repository, repo  scan remote repository
+   client, c         client mode
+   server, s         server mode
+   plugin, p         manage plugins
+   help, h           Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --quiet, -q        suppress progress bar and log output (default: false) [$TRIVY_QUIET]
+   --debug, -d        debug mode (default: false) [$TRIVY_DEBUG]
+   --cache-dir value  cache directory (default: "/home/wal/.cache/trivy") [$TRIVY_CACHE_DIR]
+   --help, -h         show help (default: false)
+   --version, -v      print the version (default: false)
+   
+```
+
+
+Most likely you will use the `trivy image` commands for image scanning, get used  to the different options and how can you utilize them efficiently
+
+
+```
+
+$ trivy image --help
+NAME:
+   trivy image - scan an image
+
+USAGE:
+   trivy image [command options] image_name
+
+OPTIONS:
+   --template value, -t value  output template [$TRIVY_TEMPLATE]
+   --format value, -f value    format (table, json, template) (default: "table") [$TRIVY_FORMAT]
+   --input value, -i value     input file path instead of image name [$TRIVY_INPUT]
+   --severity value, -s value  severities of vulnerabilities to be displayed (comma separated) (default: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL") [$TRIVY_SEVERITY]
+   --output value, -o value    output file name [$TRIVY_OUTPUT]
+   --exit-code value           Exit code when vulnerabilities were found (default: 0) [$TRIVY_EXIT_CODE]
+   --skip-update               skip db update (default: false) [$TRIVY_SKIP_UPDATE]
+   --download-db-only          download/update vulnerability database but don't run a scan (default: false) [$TRIVY_DOWNLOAD_DB_ONLY]
+   --reset                     remove all caches and database (default: false) [$TRIVY_RESET]
+   --clear-cache, -c           clear image caches without scanning (default: false) [$TRIVY_CLEAR_CACHE]
+   --no-progress               suppress progress bar (default: false) [$TRIVY_NO_PROGRESS]
+   --ignore-unfixed            display only fixed vulnerabilities (default: false) [$TRIVY_IGNORE_UNFIXED]
+   --removed-pkgs              detect vulnerabilities of removed packages (only for Alpine) (default: false) [$TRIVY_REMOVED_PKGS]
+   --vuln-type value           comma-separated list of vulnerability types (os,library) (default: "os,library") [$TRIVY_VULN_TYPE]
+   --ignorefile value          specify .trivyignore file (default: ".trivyignore") [$TRIVY_IGNOREFILE]
+   --timeout value             timeout (default: 5m0s) [$TRIVY_TIMEOUT]
+   --light                     light mode: it's faster, but vulnerability descriptions and references are not displayed (default: false) [$TRIVY_LIGHT]
+   --ignore-policy value       specify the Rego file to evaluate each vulnerability [$TRIVY_IGNORE_POLICY]
+   --list-all-pkgs             enabling the option will output all packages regardless of vulnerability (default: false) [$TRIVY_LIST_ALL_PKGS]
+   --skip-files value          specify the file paths to skip traversal [$TRIVY_SKIP_FILES]
+   --skip-dirs value           specify the directories where the traversal is skipped [$TRIVY_SKIP_DIRS]
+   --cache-backend value       cache backend (e.g. redis://localhost:6379) (default: "fs") [$TRIVY_CACHE_BACKEND]
+   --help, -h                  show help (default: false)
+
+```
+
+### tasks:
+- Try scaning popular images
+  - bitnami/nginx:latest bitnami/redis:latest
+  - nginx:1.19.0 nginx:lates and different variants
+  - apache
+  - alpine
+  - busybox
+  - the control plane images
+  
+- Try to output images with certain CVE, or avoid them in deployments
+- 
+### Credits:
+
+   images: from Aqua security [Trivy GitHub repo](https://github.com/aquasecurity/trivy) 
+   
 
 
 # -ImagePolicyWebhook
