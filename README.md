@@ -26,14 +26,14 @@ As I had issues with limits with katacoda.com and was not able to create these s
  
 
 - Ensure you address the right namespace and cluster always
-- Do not overthink it
+- KISS:  Do not overthink it,start with the basics, do your backups, and remmber what you practiced.
 - Get familiar with the options you need and files
 - spelling mistakes
 - journalctl -u kubelet  or -u falco
 - `cat /var/log/pods`  or `/var/log/containers` or `crictl ps -a`  or `crictl logs`
 - Make sure you backup the apiserver before working on it
   - and try to break it and see errors and you investigate them  https://itnext.io/cks-exam-series-4-crash-that-apiserver-5f4d3d503028  and #Klustered might help
-
+- The exam environments comes ready with auto-completion and all command line tools you need, try to capatilize that, if you can do it from the command line, no     need to visit that web page, if you need that webpage, make sure you already know where in the web page its is what you need, you can bookmark if you wish.
 
 ## The mindset: What to expect in CKS
 - Webinar: The Certified Kubernetes Security Specialist: What to Know and How to Pass 
@@ -192,18 +192,17 @@ spec:
 ```
 
 
-# 3-trivy
-# Trivy
+# 3-Trivy
 
 
-<img src="./assets/trivy-logo.png" width="150"/>
+<img src="./images/trivy-logo.png" width="150"/>
 
 
 
 ### What is Trivy?
  A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesystems. Suitable for CI
  
- <img src="./assets/overview.png" width="600"/>
+ <img src="./images/overview.png" width="600"/>
 
 ### Documentation:
 
@@ -226,7 +225,7 @@ spec:
  - Practice scanning several images either in a file system, registry, or deployments
  - Master your jsonpath output skills
 
-   ![usage](./assets/usage.gif)
+   ![usage](./images/usage.gif)
 
 
 ## Install Trivy using from AquaSecurity github repo
@@ -357,7 +356,14 @@ OPTIONS:
 
 # -ImagePolicyWebhook
 
-https://github.com/kainlite/kube-image-bouncer
+![ImagePolicyWebhook](images/admission.png)
+
+## some references:
+
+   - https://github.com/kainlite/kube-image-bouncer
+   - https://itnext.io/cks-exam-series-5-imagepolicywebhook-8d09f1ceee70
+
+
 
 
 - creating service CSR and signing and approving it via k8s CA
@@ -474,6 +480,9 @@ rules:                           #Order is important when evaluting below Audit 
 
 
 # 5 - Falco
+
+![falco](images/falco.png)
+
 Falco is an open source project for intrusion and abnormality detection for Cloud Native platforms such as Kubernetes, Mesosphere, and Cloud Foundry.
 It can detect abnormal application behavior, and alert via Slack, Fluentd, NATS, and more.
 
@@ -502,6 +511,8 @@ You will play both the attacker and defender (sysadmin) roles, verifying that th
 - remmber to restart Falco service
 
 ## Deploy standalone falco installation in worker nodes at least
+
+Check Dan POP blog https://sysdig.com/blog/k3s-sysdig-falco/ for a 5 minutes setup using k3s 
 
 You could install Falco using Helm, or system packages, it matters to where the configuration file is, a system file or a configmap
 
