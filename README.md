@@ -35,8 +35,18 @@ As I had issues with limits with katacoda.com and was not able to create these s
   - and try to break it and see errors and you investigate them  https://itnext.io/cks-exam-series-4-crash-that-apiserver-5f4d3d503028  and #Klustered might help
 
 
+## The mindset: What to expect in CKS
+- Webinar: The Certified Kubernetes Security Specialist: What to Know and How to Pass 
 
-# -kube-bench
+  https://youtu.be/Ny3p0UKBcYs  by StackRox/Michael Foster. now with Red Hat and runs a weekly security show
+  
+- DSO Overflow Podcast special espisdoe on K8s certifications https://dsooverflow.buzzsprout.com/733070/8265436-ep08-kubernetes-exam-cram
+   Steve Giguere and Michael Foster, the hosts from Clust3rF8ck.
+   
+ 
+  
+
+# 1 -kube-bench
 
 in killer.sh platform:
 
@@ -135,7 +145,7 @@ webhooks:
         namespace: default
 ```
 
-# -gvisor   Q10
+# 2 -gvisor   Q10
 
 
 RuntimeClass
@@ -182,7 +192,7 @@ spec:
 ```
 
 
-# -trivy
+# 3-trivy
 
 
 
@@ -241,7 +251,7 @@ EOF
 ```   
    
 
-# - Audit Policy  Q17
+# 4 - Audit Policy  Q17
 - remmber the options in kube-api server
 
 - remmber the volume and volumeMounts and readonly either not set or set to False
@@ -304,7 +314,7 @@ rules:                           #Order is important when evaluting below Audit 
 
 
 
-# 6- Falco
+# 5 - Falco
 Falco is an open source project for intrusion and abnormality detection for Cloud Native platforms such as Kubernetes, Mesosphere, and Cloud Foundry.
 It can detect abnormal application behavior, and alert via Slack, Fluentd, NATS, and more.
 
@@ -383,15 +393,13 @@ This will result in a Falco Pod being deployed to each node, and thus the abilit
   Container Name: phpping_ping-74dbb488b6-4878h
   Pod Name: 
    
-is actually Down pointing backhand index
-
-k8s_<CONTAINER-NAME>_<POD-NAME>_<POD-NAMESPACE>_<POD-UID>_<Container-RestartCount>
+  ** k8s_CONTAINER-NAME_POD-NAME_POD-NAMESPACE_POD-UID_Container-RestartCount **
   
   
 
 
 
-# 7- OPA/GateKeeoer
+ # 6- OPA/GateKeeoer
 - rego playfround 
 - Styra Acadamy https://academy.styra.com/
   
