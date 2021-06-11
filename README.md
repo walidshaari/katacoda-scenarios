@@ -39,8 +39,8 @@ As I had issues with limits with katacoda.com and was not able to create these s
 - KISS:  Do not overthink it,start with the basics, do your backups, and remmber what you practiced.
 - Get familiar with the options you need and files
 - spelling mistakes
-- journalctl -u kubelet  or -u falco
-- `cat /var/log/pods`  or `/var/log/containers` or `crictl ps -a`  or `crictl logs`
+- Focused troubleshooting: for static manifests: `journalctl -u kubelet`  or for a service like falco `journalctl -u falco`
+  - problems with api-server after new configs: check logs in `cat /var/log/pods`  or `/var/log/containers` or `crictl ps -a`  or `crictl logs`
 - Make sure you backup the apiserver before working on it
   - and try to break it and see errors and you investigate them  https://itnext.io/cks-exam-series-4-crash-that-apiserver-5f4d3d503028  and #Klustered might help
 - The exam environments comes ready with auto-completion and all command line tools you need, try to capatilize that, if you can do it from the command line, no     need to visit that web page, if you need that webpage, make sure you already know where in the web page its is what you need, you can bookmark if you wish.
