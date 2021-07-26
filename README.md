@@ -66,8 +66,73 @@ As I had issues with limits with katacoda.com and was not able to create these s
    - hostPath volume  /var/lib/etcd
    - ETCD Certfificates:  CA, Server cert and key
    - etcd static pod manifest: /etc/kubernetes/manifests/etcd.yaml
-   - 
+- etcdctl --help
+```
+  root@control-plane:~# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl --help|grep snapshot
+	snapshot restore	Restores an etcd member snapshot to an etcd directory
+	snapshot save		Stores an etcd node backend snapshot to a given file
+	snapshot status		Gets backend snapshot status of a given file
+  
+  
+  kubectl exec -n kube-system -it etcd-control-plane -- etcdctl \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt  \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --write-out=table \
+  member list
+  
+  +-----------------+---------+---------------+------------------------+------------------------+------------+
+  |       ID        | STATUS  |     NAME      |       PEER ADDRS       |      CLIENT ADDRS      | IS LEARNER |
+  +-----------------+---------+---------------+------------------------+------------------------+------------+
+  | 3b17aaa147134dd | started | control-plane | https://10.0.0.10:2380 | https://10.0.0.10:2379 |      false |
+  +-----------------+---------+---------------+------------------------+------------------------+------------+
+  
+## if default --write-out it would be simple like below
+###  https://stackoverflow.com/questions/63433622/is-the-following-output-of-etcdctl-member-list-correct-and-etcd-cluster-is-in
+3b17aaa147134dd, started, control-plane, https://10.0.0.10:2380, https://10.0.0.10:2379, false
+
+#####
+
+```
 - Backup a snapshot of etcd:  `etcdctl --endpoints snapshot save <filename>` 
+
+```bash
+
+################################  backup #################
+# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl  \
+--cacert=/etc/kubernetes/pki/etcd/ca.crt  \
+--cert=/etc/kubernetes/pki/etcd/server.crt  \
+--key=/etc/kubernetes/pki/etcd/server.key  \
+snapshot save /var/lib/etcd-backup
+
+{"level":"info","ts":1627240895.1983745,"caller":"snapshot/v3_snapshot.go:119","msg":"created temporary db file","path":"/var/lib/etcd-backup.part"}
+{"level":"info","ts":"2021-07-25T19:21:35.212Z","caller":"clientv3/maintenance.go:200","msg":"opened snapshot stream; downloading"}
+{"level":"info","ts":1627240895.2146122,"caller":"snapshot/v3_snapshot.go:127","msg":"fetching snapshot","endpoint":"127.0.0.1:2379"}
+{"level":"info","ts":"2021-07-25T19:21:35.325Z","caller":"clientv3/maintenance.go:208","msg":"completed snapshot read; closing"}
+{"level":"info","ts":1627240895.3396266,"caller":"snapshot/v3_snapshot.go:142","msg":"fetched snapshot","endpoint":"127.0.0.1:2379","size":"5.2 MB","took":0.141213026}
+{"level":"info","ts":1627240895.339843,"caller":"snapshot/v3_snapshot.go:152","msg":"saved","path":"/var/lib/etcd-backup"}
+Snapshot saved at /var/lib/etcd-backup
+
+
+# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  snapshot status /var/lib/etcd-backup
+  ef379630, 113704, 901, 5.2 MB
+
+# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+--cert=/etc/kubernetes/pki/etcd/server.crt \
+--key=/etc/kubernetes/pki/etcd/server.key \
+snapshot status --write-out=table /var/lib/etcd-backup
+
++----------+----------+------------+------------+
+|   HASH   | REVISION | TOTAL KEYS | TOTAL SIZE |
++----------+----------+------------+------------+
+| ef379630 |   113704 |        901 |     5.2 MB |
++----------+----------+------------+------------+
+
+```
+
 - Check backup:  
 ```
 etcdctl snapshot status  --write-out=table <backup-filename> 
