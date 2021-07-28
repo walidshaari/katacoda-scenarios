@@ -29,6 +29,7 @@ Social networks:
 ## Quick tips
 
 * Ensure you are practcing using the right exam kubernetes version. as of  today it is 1.21 and using the right 
+![k8s docs](images/k8s-docs.png)
  
 * Ensure you address the right namespace and cluster always
 * KISS:  Do not overthink it,start with the basics, do your backups, and remmber what you practiced.
