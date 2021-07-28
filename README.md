@@ -8,22 +8,7 @@ Social networks:
 
 <img src="./images/CNJ.png" width="450"/>
 
-# Interactive Katacoda Scenarios
-
-[![](http://shields.katacoda.com/katacoda/walidshaari/count.svg)](https://www.katacoda.com/walidshaari "Get your profile on Katacoda.com")
-
-Visit https://www.katacoda.com/walidshaari to view the profile and interactive scenarios
-
-### Writing Scenarios
-Visit https://www.katacoda.com/docs to learn more about creating Katacoda scenarios
-
-For examples, visit https://github.com/katacoda/scenario-example
-
-
-## Update on KataCoda (in-progress)
-
-As I had issues with limits with katacoda.com and was not able to create these scenarios on katacod due to these limits and the lack of support, I have created the below file with hints regardin these area of the CKS exam, will work on Katacoda or Instruqt. [Instruqt](https://instruqt.com/katacoda-alternative-flexible-content-creation/) is quite promising as it has more flexibility in how your create your enviornment and its life cycle, however needs a sponsorship. if you are interested in creating such a content in Instruqt, and would like to help, let me know 
-
+## News
 
 - video of the [Exam environment preview](https://www.youtube.com/watch?v=9UqkWcdy140)
 
@@ -33,17 +18,44 @@ As I had issues with limits with katacoda.com and was not able to create these s
 
    ![killer.sh](images/killer.shell-include.png)
    
- 
+   
+   https://link.medium.com/LrdvRBadbib
+   Certification Magic 
+   Pluralsight acquring Acloud guru 
+   
+   Kubernetes 1.22 documentation
+   
 
-- Ensure you address the right namespace and cluster always
-- KISS:  Do not overthink it,start with the basics, do your backups, and remmber what you practiced.
-- Get familiar with the options you need and files
-- spelling mistakes
-- Focused troubleshooting: for static manifests: `journalctl -u kubelet`  or for a service like falco `journalctl -u falco`
-  - problems with api-server after new configs: check logs in `cat /var/log/pods`  or `/var/log/containers` or `crictl ps -a`  or `crictl logs`
-- Make sure you backup the apiserver before working on it
-  - and try to break it and see errors and you investigate them  https://itnext.io/cks-exam-series-4-crash-that-apiserver-5f4d3d503028  and #Klustered might help
-- The exam environments comes ready with auto-completion and all command line tools you need, try to capatilize that, if you can do it from the command line, no     need to visit that web page, if you need that webpage, make sure you already know where in the web page its is what you need, you can bookmark if you wish.
+## Quick tips
+
+* Ensure you are practcing using the right exam kubernetes version. as of  today it is 1.21 and using the right 
+ 
+* Ensure you address the right namespace and cluster always
+* KISS:  Do not overthink it,start with the basics, do your backups, and remmber what you practiced.
+* Get familiar with the options you need and files
+* avoid spelling mistakes
+* Focused troubleshooting for control-plan static manifests and kubelet: `journalctl -u kubelet`
+  -  Check logs in `/var/log/pods`  or `/var/log/containers` or `crictl ps -a`, `crictl pods` or `crictl logs`
+* Make sure you backup manifests/configuration files before working on them
+  - While practcing try to break working configs and check for errors, investigate them. [Klustered youtube series](https://www.youtube.com/playlist?list=PLz0t90fOInA5IyhoT96WhycPV8Km-WICj) might help you understand more the Kubernetes internals
+* The exam environments should come ready with auto-completion and all command line tools you need, try to capatilize that, if you can do it from the command line, no need to visit that web page, if you need that webpage, make sure you already know where in the web page its is what you need, you can bookmark if you wish.
+
+* Enable [kubectl autocomplete](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#bash). Autocomplete is the life saviour in any timebound exam as well as our day to day work (e.g. If autocomplete enabled `k -n [Press Tab]` will suggest available namespaces). Example command to enable autocomplete is available at official [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#bash) page, you don't have to remember anything. 
+```
+source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
+echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+
+alias k=kubectl
+complete -F __start_kubectl k
+```
+ 
+* Familiarize yourself with the documentation, initially [concepts](https://kubernetes.io/docs/concepts/)  and mostly [tasks](https://kubernetes.io/docs/tasks/), **kubectl explain** command, [kubectl cheatsheet](https://kubernetes.io/docs/user-guide/kubectl-cheatsheet/), and [kubectl commands reference](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
+  - https://kubernetes.io/docs/concepts/ 
+  - https://kubernetes.io/docs/tasks/ 
+  - https://kubernetes.io/docs/user-guide/kubectl-cheatsheet/
+  - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
+*  `kubectl api-versions` and `kubectl  api-resources` wih `grep` for a specific resoruce e.g. pv, pvc, deployment, storageclass, ..etc can help figure out the **apiVersion**, and **kind** combined with explain below will help in constructing the yaml manifest
+* [kubectl explain --recurisve](https://blog.heptio.com/kubectl-explain-heptioprotip-ee883992a243) to construct out any yaml manifest you need and find its specd and details 
 
 ## The mindset: What to expect in CKA
 
@@ -52,21 +64,49 @@ As I had issues with limits with katacoda.com and was not able to create these s
  -  Courses
  - Tips and tricks
 
-## etcd
+## Learn Vagrant
+
+- [Learn Vagrant](https://learn.hashicorp.com/vagrant)
+- [vagrant cheet sheet](https://gist.github.com/wpscholar/a49594e2e2b918f4d0c4)
+
+## 1- etcd
+Possible question
+- backup cluster etcd data and save it in the base/jump host at specific directory. in our case  /vagrant/snapshots/etcd-snapshot.db
+- restore cluster etcd data from islamabad-restore.db and verify you have the namespace CKA and deployment islamabad-nginx
+  - first check if you have any of the two namespaces cka, or dammam-cnj, if you do delete the objects
+    ```bash
+    # delete cka and dammam-cnj namespaces if they exist
+    
+    ```
+
+
+
 - Documentation:  
    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
    - https://etcd.io/docs/v3.5/op-guide/recovery/#restoring-a-cluster
+
 - Why etcd backup/restore?
   point of time copy of the cluster state
+
 - is it enough?
+
 -  Day 2 operations, required for resiliency, done periodically and before upgrades or maintenance updates
--  Componenets
+ ### Componenets
    - command line tool: etcdctl
-     `ubectl exec -n kube-system -it etcd-control-plane -- etcdctl version`
+     
+     `kubectl exec -n kube-system -it etcd-control-plane -- etcdctl version`
+   - etcd manifest and the special `--data-dir` 
    - hostPath volume  /var/lib/etcd
    - ETCD Certfificates:  CA, Server cert and key
    - etcd static pod manifest: /etc/kubernetes/manifests/etcd.yaml
-- etcdctl --help
+     - --listen-client-urls
+     - image version
+     - --cert-file
+     - --key-file
+     - --trusted-ca-file
+     - --data-dir
+     - 
+- :triangular_flag_on_post: etcdctl --help    # get to know your tools `kubectl` `etcdctl` `vim` `tmux`,...etc
 ```
   root@control-plane:~# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl --help|grep snapshot
 	snapshot restore	Restores an etcd member snapshot to an etcd directory
@@ -91,52 +131,41 @@ As I had issues with limits with katacoda.com and was not able to create these s
 ###  https://stackoverflow.com/questions/63433622/is-the-following-output-of-etcdctl-member-list-correct-and-etcd-cluster-is-in
 3b17aaa147134dd, started, control-plane, https://10.0.0.10:2380, https://10.0.0.10:2379, false
 
-#####
+##### Save ETCD data snapshot
 
 ```
-- Backup a snapshot of etcd:  `etcdctl --endpoints snapshot save <filename>` 
+- Save/backup a snapshot of etcd:  `etcdctl --endpoints snapshot save <filename>` 
 
 ```bash
 
 ################################  backup #################
-# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl  \
---cacert=/etc/kubernetes/pki/etcd/ca.crt  \
---cert=/etc/kubernetes/pki/etcd/server.crt  \
---key=/etc/kubernetes/pki/etcd/server.key  \
-snapshot save /var/lib/etcd-backup
+$ sudo etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key\
+  snapshot save /vagrant/snapshots/etcd-backup.db
 
-{"level":"info","ts":1627240895.1983745,"caller":"snapshot/v3_snapshot.go:119","msg":"created temporary db file","path":"/var/lib/etcd-backup.part"}
+{"level":"info","ts":1627240895.1983745,"caller":"snapshot/v3_snapshot.go:119","msg":"created temporary db file","path":"/vagrant/snapshots/etcd-backup.part"}
 {"level":"info","ts":"2021-07-25T19:21:35.212Z","caller":"clientv3/maintenance.go:200","msg":"opened snapshot stream; downloading"}
 {"level":"info","ts":1627240895.2146122,"caller":"snapshot/v3_snapshot.go:127","msg":"fetching snapshot","endpoint":"127.0.0.1:2379"}
 {"level":"info","ts":"2021-07-25T19:21:35.325Z","caller":"clientv3/maintenance.go:208","msg":"completed snapshot read; closing"}
 {"level":"info","ts":1627240895.3396266,"caller":"snapshot/v3_snapshot.go:142","msg":"fetched snapshot","endpoint":"127.0.0.1:2379","size":"5.2 MB","took":0.141213026}
 {"level":"info","ts":1627240895.339843,"caller":"snapshot/v3_snapshot.go:152","msg":"saved","path":"/var/lib/etcd-backup"}
-Snapshot saved at /var/lib/etcd-backup
+Snapshot saved at /vagrant/snapshots/etcd-backup
 
 
-# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+###################### Verify your snapshot save  ############
+$ sudo etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt \
   --cert=/etc/kubernetes/pki/etcd/server.crt \
-  --key=/etc/kubernetes/pki/etcd/server.key \
-  snapshot status /var/lib/etcd-backup
-  ef379630, 113704, 901, 5.2 MB
-
-# kubectl exec -n kube-system -it etcd-control-plane -- etcdctl   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
---cert=/etc/kubernetes/pki/etcd/server.crt \
---key=/etc/kubernetes/pki/etcd/server.key \
-snapshot status --write-out=table /var/lib/etcd-backup
-
+  --key=/etc/kubernetes/pki/etcd/server.key    \
+  snapshot status  --write-out=table /vagrant/snapshots/islamabad-app.db   #write-out option makes it easy to understand output data
 +----------+----------+------------+------------+
 |   HASH   | REVISION | TOTAL KEYS | TOTAL SIZE |
 +----------+----------+------------+------------+
-| ef379630 |   113704 |        901 |     5.2 MB |
+| 5e82f815 |     6726 |       1495 |     5.4 MB |
 +----------+----------+------------+------------+
 
 ```
 
-- Check backup:  
-```
-etcdctl snapshot status  --write-out=table <backup-filename> 
-```
 - Restore a snapshot of etcd: 
   - restore backup to another location   
     - you can use the new location if you modify the etcd datadirectory configuration in the etcd pod manifest 
