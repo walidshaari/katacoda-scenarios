@@ -15,6 +15,6 @@
    `kubectl get nodes -o wide`{{execute}}
 
    Deploy sample apps:
-   `kubectl -f ./deployments`{{execute}}  
+   `kubectl apply -f ./deployments`{{execute}}  
 
 
